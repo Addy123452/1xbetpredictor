@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08090d">
+  <title>Sports Outcome AI — Football Predictor</title>
+  <meta name="description" content="Static football match predictor (1X2) using a trained logistic-regression model. Estimates only — not betting advice.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="glow"></div>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <span class="brand">Sports Outcome <span>AI</span></span>
+      <span class="tag">static · client-side model</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Football match <span class="grad">predictor</span></h1>
+      <p>
+        Pick two national teams. This page runs the trained logistic-regression
+        model entirely in your browser and returns 1X2 probabilities.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="controls">
+        <label class="field">
+          <span>Home team</span>
+          <select id="homeTeam" aria-label="Home team"></select>
+        </label>
+        <label class="field">
+          <span>Away team</span>
+          <select id="awayTeam" aria-label="Away team"></select>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="neutralVenue">
+          Neutral venue
+        </label>
+        <button id="predictBtn" class="btn" type="button">Predict</button>
+      </div>
+
+      <div id="result" class="result" aria-live="polite">
+        <p class="loading">Loading model…</p>
+      </div>
+    </section>
+
+    <p class="disclaimer">
+      Model: multinomial logistic regression trained on ~49,500 historical
+      international matches (chronological 80/20 split, ~59.6% accuracy).
+      Probabilities are estimates, <strong>not guarantees</strong>. This is not
+      betting advice.
+    </p>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© Sports Outcome AI</span>
+      <a href="https://github.com/Addy123452/1xbetpredictor">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

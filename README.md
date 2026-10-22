@@ -167,6 +167,26 @@ python -m src.prediction.predict --home "France" --away "England" --neutral
 python -m tests.test_features
 ```
 
+## 🖥️ Static web page
+
+A fully static, client-side predictor lives in `docs/`. It loads
+`docs/predictor_data.json` (exported model coefficients + team state) and runs the
+same multinomial logistic-regression math in JavaScript — **no backend required**.
+
+```powershell
+python -m src.training.export_web   # regenerate docs/predictor_data.json
+```
+
+Open `docs/index.html` directly, or serve the folder:
+
+```powershell
+python -m http.server 8080 --directory docs
+# then open http://127.0.0.1:8080/
+```
+
+It is also served by GitHub Pages at
+<https://addy123452.github.io/1xbetpredictor/>.
+
 ------------------------------------------------------------------------
 
 ## 🗂️ Project Structure
