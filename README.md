@@ -3,7 +3,7 @@
 A machine learning project designed to predict the possible outcome of a
 sports match using historical match data and sport-specific features.
 
-> **Current version: v0.1 --- Football Baseline Predictor**
+> **Current version: v0.2 --- Elo + Form Predictor**
 
 ## 📌 Project Goal
 
@@ -33,17 +33,17 @@ historical results.
 ``` text
 Historical Match Data
         ↓
-Data Cleaning
+Data Cleaning (name aliases, chronology)
         ↓
-Feature Engineering
+Feature Engineering (Elo ratings + time-weighted form)
         ↓
-Chronological Train/Test Split
+Chronological Train/Test Split (80/20)
         ↓
-Logistic Regression
+Model Comparison (logistic regression, calibrated LR, gradient boosting, random forest)
         ↓
 Match Outcome Prediction
         ↓
-Model Evaluation
+Model Evaluation (accuracy, log loss, Brier, classification report)
 ```
 
 ------------------------------------------------------------------------
@@ -86,13 +86,15 @@ prediction system.
 
 ## 🧠 Features
 
-The current model uses historical information such as:
+The current model (v0.2) uses pre-match information only:
 
--   Previous 5-match form
--   Historical points-per-game strength
--   Difference in recent form
--   Difference in historical strength
--   Neutral venue information
+-   Elo rating for the home and away team (computed chronologically)
+-   Difference in Elo ratings
+-   Time-weighted recent form (last 5 matches, exponentially decayed)
+-   Recent goal difference (time-weighted)
+-   Home- vs away-specific points per game
+-   Opponent strength (opponent's pre-match Elo)
+-   Neutral venue flag
 
 The model is designed to avoid using the current match's final result
 when creating predictive features.
@@ -128,25 +130,42 @@ realistic evaluation.
 
 ------------------------------------------------------------------------
 
-## 📈 Baseline Results
+## 📈 v0.2 Results
 
-Current baseline accuracy:
+Evaluated on the **chronological 20% hold-out** (last 9,904 matches,
+2016-03-29 → 2026-07-15). Features use only information available before each
+match, and the split never mixes future matches into training.
 
-**\~55--56%**
+| Model | Accuracy | Log loss | Brier |
+| --- | --- | --- | --- |
+| Logistic regression | **0.5963** | **0.8802** | **0.5175** |
+| Logistic regression (sigmoid-calibrated) | 0.5958 | 0.8912 | 0.5231 |
+| Histogram gradient boosting | 0.5958 | 0.8851 | 0.5201 |
+| Random forest | 0.5937 | 0.8930 | 0.5248 |
 
-The classification report showed that the baseline model performs much
-better at identifying home wins than draws.
+The selected model is the **uncalibrated logistic regression** (lowest log
+loss). Explicit sigmoid calibration was tested but did **not** improve log loss
+on this split, so it was not adopted — recorded here rather than silently
+omitted.
 
-Current observation:
+Draws remain the hardest class to predict (the model favours home/away
+outcomes), which matches the known difficulty of football draws.
 
-``` text
-Home Win → strong recall
-Away Win → moderate performance
-Draw     → poor performance
+## 🚀 How to run
+
+```powershell
+python -m pip install -r requirements.txt
+
+# Train, evaluate, and write models/ (model, metrics, team state)
+python -m src.training.train
+
+# Predict a match
+python -m src.prediction.predict --home "Brazil" --away "Argentina"
+python -m src.prediction.predict --home "France" --away "England" --neutral
+
+# Run the feature tests
+python -m tests.test_features
 ```
-
-This is an identified limitation and will be addressed in future
-versions.
 
 ------------------------------------------------------------------------
 
@@ -235,15 +254,15 @@ Planned:
 -   [x] Logistic Regression baseline
 -   [x] Model evaluation
 
-### Version 0.2 --- Model Improvement
+### Version 0.2 --- Completed ✅
 
--   [ ] Elo ratings
--   [ ] Goal-difference features
--   [ ] Home/away performance
--   [ ] Opponent strength
--   [ ] Time-weighted form
--   [ ] Better probability calibration
--   [ ] Compare multiple ML algorithms
+-   [x] Elo ratings
+-   [x] Goal-difference features
+-   [x] Home/away performance
+-   [x] Opponent strength
+-   [x] Time-weighted form
+-   [x] Better probability calibration (tested; not adopted — see Results)
+-   [x] Compare multiple ML algorithms
 
 ### Version 0.3 --- Live Football Prediction
 

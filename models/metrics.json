@@ -1,0 +1,77 @@
+{
+  "dataset": {
+    "matches": 49518,
+    "date_min": "1872-11-30",
+    "date_max": "2026-07-15"
+  },
+  "split": {
+    "strategy": "chronological 80/20",
+    "train_matches": 39614,
+    "test_matches": 9904,
+    "test_date_min": "2016-03-29",
+    "test_date_max": "2026-07-15"
+  },
+  "features": [
+    "home_elo",
+    "away_elo",
+    "elo_diff",
+    "home_form_ppg",
+    "away_form_ppg",
+    "form_diff",
+    "home_form_gd",
+    "away_form_gd",
+    "gd_diff",
+    "home_home_ppg",
+    "away_away_ppg",
+    "opp_strength_home",
+    "opp_strength_away",
+    "neutral"
+  ],
+  "models": {
+    "logistic_regression": {
+      "accuracy": 0.5963,
+      "log_loss": 0.8802,
+      "brier": 0.5175,
+      "classes": [
+        "A",
+        "D",
+        "H"
+      ],
+      "n": 9904
+    },
+    "logistic_regression_calibrated": {
+      "accuracy": 0.5958,
+      "log_loss": 0.8912,
+      "brier": 0.5231,
+      "classes": [
+        "A",
+        "D",
+        "H"
+      ],
+      "n": 9904
+    },
+    "hist_gradient_boosting": {
+      "accuracy": 0.5958,
+      "log_loss": 0.8851,
+      "brier": 0.5201,
+      "classes": [
+        "A",
+        "D",
+        "H"
+      ],
+      "n": 9904
+    },
+    "random_forest": {
+      "accuracy": 0.5937,
+      "log_loss": 0.893,
+      "brier": 0.5248,
+      "classes": [
+        "A",
+        "D",
+        "H"
+      ],
+      "n": 9904
+    }
+  },
+  "best_model": "logistic_regression"
+}

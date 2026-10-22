@@ -1,0 +1,16 @@
+[
+  "home_elo",
+  "away_elo",
+  "elo_diff",
+  "home_form_ppg",
+  "away_form_ppg",
+  "form_diff",
+  "home_form_gd",
+  "away_form_gd",
+  "gd_diff",
+  "home_home_ppg",
+  "away_away_ppg",
+  "opp_strength_home",
+  "opp_strength_away",
+  "neutral"
+]
